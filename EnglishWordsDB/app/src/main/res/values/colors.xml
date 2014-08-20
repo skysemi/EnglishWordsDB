@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="indicator_normal">#dddddd</color>
+    <color name="indicator_checked">#777777</color>
+
+    <color name="drawer_background">#2a2a2a</color>
+
+    <color name="selector_transparent1">#55ffffff</color>
+    <color name="selector_transparent2">#33ffffff</color>
+
+    <color name="January">#20f5b090</color>
+    <color name="February">#20fcd7a1</color>
+    <color name="March">#20fff9b1</color>
+    <color name="April">#20d7e7af</color>
+    <color name="May">#20a5d4ad</color>
+    <color name="June">#20a2d7d4</color>
+    <color name="July">#209fd9f6</color>
+    <color name="August">#20a3bce2</color>
+    <color name="September">#20a59aca</color>
+    <color name="November">#20cfa7cd</color>
+    <color name="October">#20f4b4d0</color>
+    <color name="December">#20f5b2b2</color>
+
+    <color name="January2">#f5b090</color>
+    <color name="February2">#fcd7a1</color>
+    <color name="March2">#fff9b1</color>
+    <color name="April2">#d7e7af</color>
+    <color name="May2">#a5d4ad</color>
+    <color name="June2">#a2d7d4</color>
+    <color name="July2">#9fd9f6</color>
+    <color name="August2">#a3bce2</color>
+    <color name="September2">#a59aca</color>
+    <color name="November2">#cfa7cd</color>
+    <color name="October2">#f4b4d0</color>
+    <color name="December2">#f5b2b2</color>
+
+    <color name="bronze">#c47222</color>
+    <color name="silver">#c0c0c0</color>
+    <color name="gold">#ffd700</color>
+
+</resources>

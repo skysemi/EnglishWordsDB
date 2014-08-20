@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="drawer_items">
+        <item>@string/my_list</item>
+        <item>@string/site_list</item>
+        <item>@string/remembered_list</item>
+        <item>@string/setting</item>
+    </string-array>
+
+
+
+    <string name="ignore_list">無視リスト</string>
+
+
+    <string-array name="WORD_LEVEL">
+        <item>無視しない</item>
+        <item>約500語(中学レベル)</item>
+        <item>約3000語(高校レベル)</item>
+    </string-array>
+    <string-array name="WORD_LEVEL_VAL">
+        <item>0</item>
+        <item>500</item>
+        <item>4096</item>
+    </string-array>
+
+    <string-array name="WORDS_NUM">
+        <item>10位まで</item>
+        <item>30位まで</item>
+        <item>100位まで</item>
+        <item>1000位まで</item>
+    </string-array>
+    <string-array name="WORDS_NUM_VAL">
+        <item>10</item>
+        <item>30</item>
+        <item>100</item>
+        <item>1000</item>
+    </string-array>
+
+    <string-array name="WORDS_FONT">
+        <item>標準</item>
+        <item>sans</item>
+        <item>serif</item>
+        <item>monospace</item>
+    </string-array>
+    <string-array name="WORDS_FONT_VAL">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="ANIM_LENGTH">
+        <item>短い</item>
+        <item>標準</item>
+        <item>長い</item>
+    </string-array>
+    <string-array name="ANIM_LENGTH_VAL">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="CARD_SIZE">
+        <item>小さい</item>
+        <item>標準</item>
+        <item>大きい</item>
+    </string-array>
+    <string-array name="CARD_SIZE_VAL">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+
+</resources>

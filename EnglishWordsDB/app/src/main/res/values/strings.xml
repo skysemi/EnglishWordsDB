@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">英単語コレクター</string>
+    <string name="action_settings">設定</string>
+    <string name="my_list">マイ単語帳</string>
+    <string name="site_list">登録サイト</string>
+    <string name="remembered_list">覚えたリスト</string>
+    <string name="setting">設定</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="title_activity_preference">設定画面</string>
+    <string name="card_size">カードの大きさ</string>
+    <string name="font">フォント</string>
+    <string name="length">長さ</string>
+    <string name="remember_anim">暗記アニメ</string>
+    <string name="anim">アニメーション</string>
+    <string name="length_title">表示までの長さ</string>
+    <string name="card_size_title">カードの大きさ</string>
+    <string name="font_title">単語のフォント</string>
+    <string name="display_num">表示単語数</string>
+    <string name="display_num_title">マイ単語帳に表示する単語数</string>
+    <string name="word_level">無視単語レベル</string>
+    <string name="word_level_num">最初から無視する単語のレベル</string>
+
+</resources>

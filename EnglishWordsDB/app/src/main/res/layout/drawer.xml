@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/drawer_background"
+    android:orientation="vertical"
+    tools:ignore="Overdraw" >
+
+    <net.skysemi.englishwordsdb.DrawerItemView
+        android:id="@+id/collections"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_item_height"
+        android:background="@drawable/item_background"
+        app:src="@drawable/ic_book"
+        app:text="@string/my_list" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:background="@android:drawable/divider_horizontal_dim_dark" />
+
+    <net.skysemi.englishwordsdb.DrawerItemView
+        android:id="@+id/send"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_item_height"
+        android:background="@drawable/item_background"
+        app:count="0"
+        app:src="@drawable/ic_earth"
+        app:text="@string/site_list" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:background="@android:drawable/divider_horizontal_dim_dark" />
+
+    <net.skysemi.englishwordsdb.DrawerItemView
+        android:id="@+id/favorites"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_item_height"
+        android:background="@drawable/item_background"
+        app:count="0"
+        app:src="@drawable/ic_hearts"
+        app:text="@string/remembered_list" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:background="@android:drawable/divider_horizontal_dim_dark" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:background="@android:drawable/divider_horizontal_dim_dark" />
+
+    <net.skysemi.englishwordsdb.DrawerItemView
+        android:id="@+id/share"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_item_height"
+        android:background="@drawable/item_background"
+        app:src="@drawable/ic_settings"
+        app:text="@string/action_settings" />
+
+</LinearLayout>

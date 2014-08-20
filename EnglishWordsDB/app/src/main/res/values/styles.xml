@@ -1,0 +1,15 @@
+<resources>
+
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarItemBackground">@drawable/item_background</item>
+        <item name="android:actionBarWidgetTheme">@style/HoloStyle</item>
+    </style>
+
+    <style name="HoloStyle" parent="android:Theme.Holo">
+        <item name="android:listChoiceBackgroundIndicator">@drawable/item_background</item>
+    </style>
+
+
+
+
+</resources>

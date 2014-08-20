@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DrawerItemView">
+        <attr name="text" format="string" />
+        <attr name="src" format="reference|color" />
+        <attr name="count" format="integer" />
+    </declare-styleable>
+
+</resources>

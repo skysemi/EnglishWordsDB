@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <ListPreference
+        android:dialogTitle="@string/word_level_num"
+        android:entries="@array/WORD_LEVEL"
+        android:entryValues="@array/WORD_LEVEL_VAL"
+        android:key="words_level"
+        android:defaultValue= "500"
+        android:title="@string/word_level" />
+
+    <ListPreference
+        android:dialogTitle="@string/display_num_title"
+        android:entries="@array/WORDS_NUM"
+        android:entryValues="@array/WORDS_NUM_VAL"
+        android:key="words_num"
+        android:defaultValue= "30"
+        android:title="@string/display_num" />
+
+    <ListPreference
+        android:dialogTitle="@string/font_title"
+        android:entries="@array/WORDS_FONT"
+        android:entryValues="@array/WORDS_FONT_VAL"
+        android:key="words_font"
+        android:defaultValue= "0"
+        android:title="@string/font" />
+
+    <ListPreference
+        android:dialogTitle="@string/card_size_title"
+        android:entries="@array/CARD_SIZE"
+        android:entryValues="@array/CARD_SIZE_VAL"
+        android:key="card_size"
+        android:defaultValue= "1"
+        android:title="@string/card_size" />
+
+
+
+    <PreferenceCategory
+        android:title="@string/anim">
+
+        <SwitchPreference
+            android:title="@string/remember_anim"
+            android:key="anim"
+            android:defaultValue="false"/>
+
+        <ListPreference
+            android:dialogTitle="@string/length_title"
+            android:entries="@array/ANIM_LENGTH"
+            android:entryValues="@array/ANIM_LENGTH_VAL"
+            android:key="anim_length"
+            android:defaultValue= "1"
+            android:title="@string/length" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.skysemi.englishwordsdb.MainActivity" >
+
+    <item android:id="@+id/action_add_url"
+        android:title="URLで追加"
+        android:orderInCategory="10"
+        android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/action_go_wiki"
+        android:title="Wikipedia(en)へ"
+        android:orderInCategory="12"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/action_random"
+        android:title="ランダムコレクト"
+        android:orderInCategory="12"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/action_ignore_list"
+        android:title="無視リスト管理"
+        android:orderInCategory="14"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="20"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:showAsAction="never" />
+</menu>

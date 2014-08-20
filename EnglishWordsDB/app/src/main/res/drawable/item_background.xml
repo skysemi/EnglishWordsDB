@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- タップ時 -->
+    <item android:state_pressed="true">
+        <shape>
+            <!-- 透明度の低いメインカラーで塗りつぶし -->
+            <solid android:color="@color/selector_transparent1" />
+        </shape>
+    </item>
+
+    <!-- フォーカス時 -->
+    <item android:state_focused="true">
+        <shape>
+            <!-- 透明度の低いメインカラーの縁取り -->
+            <stroke android:color="@color/selector_transparent1" android:width="2dp"/>
+            <!-- 透明度の高いメインカラーで塗りつぶし -->
+            <solid android:color="@color/selector_transparent2" />
+        </shape>
+    </item>
+
+    <!-- 通常時 -->
+    <item>
+        <shape>
+            <!-- 透明 -->
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+</selector>
