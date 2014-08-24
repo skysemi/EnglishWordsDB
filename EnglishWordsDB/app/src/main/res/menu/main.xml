@@ -3,23 +3,23 @@
     tools:context="net.skysemi.englishwordsdb.MainActivity" >
 
     <item android:id="@+id/action_add_url"
-        android:title="URLで追加"
+        android:title="@string/input_url"
         android:orderInCategory="10"
         android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="never" />
 
     <item android:id="@+id/action_go_wiki"
-        android:title="Wikipedia(en)へ"
+        android:title="@string/to_wiki"
         android:orderInCategory="12"
         android:showAsAction="never" />
 
     <item android:id="@+id/action_random"
-        android:title="ランダムコレクト"
+        android:title="@string/random_collect"
         android:orderInCategory="12"
         android:showAsAction="never" />
 
     <item android:id="@+id/action_ignore_list"
-        android:title="無視リスト管理"
+        android:title="@string/ignore_list_manage"
         android:orderInCategory="14"
         android:showAsAction="never" />
 

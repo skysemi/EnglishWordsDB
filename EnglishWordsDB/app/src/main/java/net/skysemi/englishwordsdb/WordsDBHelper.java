@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 
-/**
- * Created by mori on 2014/08/02.
- */
+
 public class WordsDBHelper extends SQLiteOpenHelper {
 
     static final String DATABASE_NAME = "words.db";

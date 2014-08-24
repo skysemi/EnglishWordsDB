@@ -3,27 +3,17 @@ package net.skysemi.englishwordsdb;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
-/**
- * Created by mori on 2014/08/02.
- */
+
 public class AsyncHttpRequest extends AsyncTask<String, Integer, String> {
     private final char[] IGNORE_CHARS = {'.', ',', '?'};
     private String myURL;
@@ -52,7 +42,7 @@ public class AsyncHttpRequest extends AsyncTask<String, Integer, String> {
         }
 
         if (!document.getElementsByTag("html").attr("lang").equals("en")) {
-            return "英語のサイトではありません";
+            return context.getString(R.string.not_english_error);
         }
         String result = (document.body()).text();
 
@@ -82,15 +72,15 @@ public class AsyncHttpRequest extends AsyncTask<String, Integer, String> {
         (new WordsDBHelper(context)).insertData(wordList, siteID);
 
 
+        //サイトリストに書き込む
         int size = wordList.size();
-        ((MainActivity) context).addToFile(siteID + "\t" + document.title() + "\t" + document.baseUri() + "\t" + size, "siteList");
+        String string = siteID + "\t" + document.title() + "\t" + document.baseUri() + "\t" + size;
+        (new AsyncFileWriter(context, true, string, "siteList")).execute();
 
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("siteID", siteID + 1);
-        editor.commit();
-        
-        return document.title() + "\nから " + size + "単語を解析しました";
+        sharedPref.edit().putInt("siteID", siteID + 1).apply();
+
+        return document.title() + "\n" + context.getString(R.string.from) + " " + size + context.getString(R.string.words_analyzed);
     }
 
 
@@ -100,13 +90,11 @@ public class AsyncHttpRequest extends AsyncTask<String, Integer, String> {
         mainActivity.setProgressBarIndeterminateVisibility(false);
         Toast.makeText(context, result, Toast.LENGTH_LONG).show();
         CharSequence title = mainActivity.getActionBar().getTitle();
+        mainActivity.updateMyListFromDB();
         if (title.equals(context.getString(R.string.my_list))) {
-            mainActivity.updateMyList();
-        } else if(title.equals(context.getString(R.string.site_list))){
+            mainActivity.showMyList();
+        } else if (title.equals(context.getString(R.string.site_list))) {
             mainActivity.showSiteList();
-            mainActivity.setMyList();
-        }else {
-            mainActivity.setMyList();
         }
         mainActivity.loadInterstitial();
     }

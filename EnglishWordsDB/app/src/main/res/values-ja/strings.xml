@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">英単語コレクター</string>
+    <string name="action_settings">設定</string>
+    <string name="my_list">マイ単語帳</string>
+    <string name="site_list">登録サイト</string>
+    <string name="remembered_list">覚えたリスト</string>
+    <string name="ignore_list">無視リスト</string>
+    <string name="setting">設定</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+
+    <string name="title_activity_preference">設定画面</string>
+    <string name="card_size">カードの大きさ</string>
+    <string name="font">フォント</string>
+    <string name="length">長さ</string>
+    <string name="remember_anim">暗記アニメ</string>
+    <string name="anim">アニメーション</string>
+    <string name="length_title">表示までの長さ</string>
+    <string name="card_size_title">カードの大きさ</string>
+    <string name="font_title">単語のフォント</string>
+    <string name="display_num">表示単語数</string>
+    <string name="display_num_title">マイ単語帳に表示する単語数</string>
+    <string name="word_level">無視単語レベル</string>
+    <string name="word_level_num">最初から無視する単語のレベル</string>
+
+    <string name="about">このアプリについて</string>
+    <string name="about2"></string>
+    <string name="basic_settings">基本設定</string>
+    <string name="other_settings">その他</string>
+    <string name="author">作者 : スカゼミアンドロイド部 モリ</string>
+    <string name="about_skysemi">スカゼミについて</string>
+
+    <string name="do_not_ignore">無視しない</string>
+    <string name="about_500_words">約500語(中学レベル)</string>
+    <string name="about_3000_words">約3000語(高校レベル)</string>
+    <string name="rank_10">10位まで</string>
+    <string name="rank_30">30位まで</string>
+    <string name="rank_100">100位まで</string>
+    <string name="rank_1000">1000位まで</string>
+    <string name="standard">標準</string>
+    <string name="short_">短い</string>
+    <string name="long_">長い</string>
+    <string name="small">小さい</string>
+    <string name="big">大きい</string>
+
+    <string name="not_english_error">英語のサイトではありません</string>
+    <string name="words_analyzed">単語を解析しました</string>
+    <string name="from">から</string>
+    <string name="tutorial0"> 英単語コレクター\n英語のサイトから英単語を集めて、あなただけの単語帳を自動で作ることができます。</string>
+    <string name="tutorial1">お使いのブラウザの共有ボタンから、サイトの全単語をコレクトすることができます。</string>
+    <string name="tutorial2">アプリのオプションボタンから、ランダムにWikipediaの記事をコレクトしたり、URLからのコレクトもできます。"</string>
+    <string name="tutorial3">覚えた単語はどんどん「覚えたリスト」に追加していきましょう。</string>
+    <string name="rank">"位"</string>
+
+    <string name="tutorial_title_0">ようこそ</string>
+    <string name="tutorial_title_1">ブラウザから</string>
+    <string name="tutorial_title_2">アプリから</string>
+    <string name="tutorial_title_3">覚えたリスト</string>
+
+    <string name="next">次へ</string>
+    <string name="finish">完了</string>
+
+    <string name="option_meaning_search">意味検索</string>
+    <string name="option_marker">マーカー</string>
+    <string name="option_delete_marker">マーカーを消す</string>
+    <string name="option_to_remembered_list">覚えたリストへ</string>
+    <string name="option_to_ignore_list">無視リストへ</string>
+    <string name="option_cancel">キャンセル</string>
+
+    <string name="option_to_site">サイトへ移動</string>
+    <string name="option_delete_site">このサイトを削除</string>
+
+    <string name="delete_from_remembered_list">覚えたリストから削除して良いですか？</string>
+    <string name="delete_from_ignore_list">無視リストから削除して良いですか？</string>
+
+    <string name="yes">はい</string>
+    <string name="cancel">キャンセル</string>
+    <string name="input_url">URLで追加</string>
+    <string name="get_from">から取得します</string>
+    
+    <string name="to_wiki">Wikipedia(en)へ</string>
+    <string name="random_collect">ランダムサイト取得</string>
+    <string name="ignore_list_manage">無視リスト管理</string>
+    
+
+</resources>

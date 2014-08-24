@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="my_list_odd">#fbfbfb</color>
+    <color name="my_list_even">#ffffff</color>
+    <color name="my_list_marker">#fbfb6b</color>
+
     <color name="indicator_normal">#dddddd</color>
     <color name="indicator_checked">#777777</color>
 

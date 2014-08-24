@@ -15,29 +15,21 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mori on 2014/08/12.
- */
-public class OtherListAdapter extends SimpleAdapter {
+
+public class RememberedListAdapter extends SimpleAdapter {
 
     private LayoutInflater mInflater;
     private Context context;
     private int lastPosition = -1;
-    // コンストラクタ
-    public OtherListAdapter(Context context, List<? extends Map<String, ?>> data) {
-        super(context, data, R.layout.other_list_item, new String[]{"単語", "登録日"}, new int[]{R.id.itemName, R.id.itemDate});
-        this.context = context;
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
 
-    //初期アニメなし
-    public OtherListAdapter(Context context, List<? extends Map<String, ?>> data,int position) {
-        super(context, data, R.layout.other_list_item, new String[]{"単語", "登録日"}, new int[]{R.id.itemName, R.id.itemDate});
+    //positionは初期アニメなしの要素数
+    public RememberedListAdapter(Context context, List<? extends Map<String, ?>> data, int position) {
+        super(context, data, R.layout.other_list_item,
+                new String[]{"単語", "登録日"}, new int[]{R.id.itemName, R.id.itemDate});
         this.context = context;
         this.lastPosition = position;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
 
 
     @Override

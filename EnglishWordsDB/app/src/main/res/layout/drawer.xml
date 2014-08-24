@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/drawer_background"
     android:orientation="vertical"
-    tools:ignore="Overdraw" >
+    tools:ignore="Overdraw">
 
     <net.skysemi.englishwordsdb.DrawerItemView
         android:id="@+id/collections"

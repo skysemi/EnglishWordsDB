@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mori on 2014/08/12.
- */
+
 public class MyListAdapter extends SimpleAdapter {
 
+    private final int oddColor;
+    private final int evenColor;
+    private final int markerColor;
     private LayoutInflater mInflater;
     private Context context;
     private Typeface[] mTypeface = {Typeface.DEFAULT, Typeface.SANS_SERIF, Typeface.SERIF, Typeface.MONOSPACE};
     private ArrayList<String> markedWords;
+
 
     // コンストラクタ
     public MyListAdapter(Context context, List<Map<String, String>> data) {
@@ -43,6 +44,10 @@ public class MyListAdapter extends SimpleAdapter {
 
         markedWords = new ArrayList<String>();
         loadMarkedWords();
+
+        oddColor = context.getResources().getColor(R.color.my_list_odd);
+        evenColor = context.getResources().getColor(R.color.my_list_even);
+        markerColor = context.getResources().getColor(R.color.my_list_marker);
     }
 
     public ArrayList<String> getMarkedWords() {
@@ -70,7 +75,6 @@ public class MyListAdapter extends SimpleAdapter {
         View view = convertView;
         Map map = (Map) getItem(position);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-//        boolean isFirstTime = false;
 
         // Viewを再利用している場合は新たにViewを作らない
         if (view == null) {
@@ -110,14 +114,14 @@ public class MyListAdapter extends SimpleAdapter {
 
         // 行毎に背景色を変える
         if (position % 2 == 0) {
-            holder.listLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+            holder.listLayout.setBackgroundColor(evenColor);
         } else {
-            holder.listLayout.setBackgroundColor(Color.parseColor("#fbfbfb"));
+            holder.listLayout.setBackgroundColor(oddColor);
         }
 
         //マーカー
         if (markedWords.contains(word)) {
-            holder.wordBG.setBackgroundColor(Color.parseColor("#fbfb6b"));
+            holder.wordBG.setBackgroundColor(markerColor);
         } else {
             holder.wordBG.setBackgroundColor(Color.alpha(0));
         }
@@ -128,7 +132,7 @@ public class MyListAdapter extends SimpleAdapter {
                 holder.listLayout.setMinimumHeight(0);
                 break;
             case 1:
-                holder.listLayout.setMinimumHeight(200);
+                holder.listLayout.setMinimumHeight(300);
                 break;
             case 2:
                 holder.listLayout.setMinimumHeight(1000);

@@ -20,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -53,7 +52,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private DrawerLayout mDrawerLayout;
     // private ListView mDrawerListView;
-    private LinearLayout mDrawerLinearLayout;//test
+    //test
     private View mFragmentContainerView;
 
     private int mCurrentSelectedPosition = 0;
@@ -92,8 +91,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mDrawerLinearLayout = (LinearLayout) inflater.inflate(R.layout.drawer, container, false);
-        return mDrawerLinearLayout;
+        return inflater.inflate(R.layout.drawer, container, false);
     }
 
 
@@ -289,7 +287,7 @@ public class NavigationDrawerFragment extends Fragment {
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
+            //inflater.inflate(R.menu.global, menu);
             showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);

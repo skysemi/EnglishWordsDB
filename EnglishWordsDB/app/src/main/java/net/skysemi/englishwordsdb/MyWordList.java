@@ -18,25 +18,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mori on 2014/08/02.
- */
+
 public class MyWordList {
 
     private final char[] IGNORE_CHARS_2
-            = {':', ';', '^', '\"', '(',')'};
+            = {':', ';', '^', '\"', '(', ')'};
     private Context context;
     private List<Map<String, String>> myWordMapList;
     private ArrayList<String> ignoreWords;
-    private int leastNum = 1;
-    private int ignoreLevel;
     private int maxWordMapSize;
 
 
     MyWordList(Context c) {
         context = c;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        ignoreLevel = Integer.parseInt(sharedPref.getString("words_level", "1200"));
+        int ignoreLevel = Integer.parseInt(sharedPref.getString("words_level", "1200"));
         maxWordMapSize = Integer.parseInt(sharedPref.getString("words_num", "10"));
         ignoreWords = new ArrayList<String>();
         loadIgnoreWords(ignoreLevel);
@@ -113,8 +109,8 @@ public class MyWordList {
         try {
             cursor = db.rawQuery("SELECT " + Word.WORD
                     + ", COUNT(*) AS WordCount FROM " + Word.TB_NAME
-                    + " GROUP BY " + Word.WORD + " HAVING(Count(*) > "
-                    + leastNum + " ) ORDER BY WordCount DESC", new String[]{});
+                    + " GROUP BY " + Word.WORD + " HAVING(Count(*) > 1"
+                    + " ) ORDER BY WordCount DESC", new String[]{});
             if (cursor != null) {
                 int i = 0;
                 while (cursor.moveToNext() && i < maxWordMapSize) {
@@ -123,7 +119,7 @@ public class MyWordList {
                     if (isIgnoreWord(s)) continue;
 
                     Map<String, String> map = new HashMap<String, String>();
-                    map.put("ランク", String.valueOf(i + 1) + "位");
+                    map.put("ランク", String.valueOf(i + 1) + context.getString(R.string.rank));
                     map.put("単語", s);
                     map.put("出現数", cursor.getString(cursor.getColumnIndex("WordCount")));
                     myWordMapList.add(map);
@@ -150,6 +146,6 @@ public class MyWordList {
 
     private void recountList() {
         for (int i = 0; i < myWordMapList.size(); i++)
-            myWordMapList.get(i).put("ランク", String.valueOf(i + 1) + "位");
+            myWordMapList.get(i).put("ランク", String.valueOf(i + 1) + context.getString(R.string.rank));
     }
 }

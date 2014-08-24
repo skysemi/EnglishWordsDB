@@ -3,7 +3,6 @@ package net.skysemi.englishwordsdb;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,15 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mori on 2014/08/12.
- */
+
 public class SiteListAdapter extends SimpleAdapter {
 
     private LayoutInflater mInflater;
     private Context context;
+
     // コンストラクタ
     public SiteListAdapter(Context context, List<? extends Map<String, ?>> data) {
-        super(context, data, R.layout.site_list_item, new String[]{"サイト名", "URL","単語数", "登録日"}, new int[]{R.id.siteName, R.id.siteURL,R.id.siteWordsNum, R.id.siteDate});
+        super(context, data, R.layout.site_list_item, new String[]{"サイト名", "URL", "単語数", "登録日"}, new int[]{R.id.siteName, R.id.siteURL, R.id.siteWordsNum, R.id.siteDate});
         this.context = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

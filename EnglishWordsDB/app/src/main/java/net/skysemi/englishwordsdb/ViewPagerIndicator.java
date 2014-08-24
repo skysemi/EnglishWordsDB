@@ -9,14 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-/**
- * Created by mori on 2014/08/17.
- */
+
 public class ViewPagerIndicator extends RadioGroup {
 
-    public ViewPagerIndicator(Context context) {
-        this(context, null);
-    }
+    private int mCount;
 
     public ViewPagerIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -24,12 +20,8 @@ public class ViewPagerIndicator extends RadioGroup {
         setGravity(Gravity.CENTER);
     }
 
-    private int mCount;
-
     /**
      * ページ数をセットする
-     *
-     * @param count
      */
     public void setCount(int count) {
         mCount = count;
@@ -60,8 +52,6 @@ public class ViewPagerIndicator extends RadioGroup {
 
     /**
      * 現在の位置をセットする
-     *
-     * @param position
      */
     public void setCurrentPosition(int position) {
         if (position >= mCount) {

@@ -9,14 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,26 +26,21 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +50,7 @@ public class MainActivity extends Activity
 
 
     static final int ANIMATION_DURATION = 500;
+    ViewPagerIndicator mViewPagerIndicator;
     private ListView mListView;
     private MyWordList myList;
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -64,7 +58,7 @@ public class MainActivity extends Activity
     private AdView adView;
     private InterstitialAd interstitial;
 
-    public void setMyList() {
+    public void updateMyListFromDB() {
         myList = new MyWordList(this);
     }
 
@@ -77,12 +71,11 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
 
         // AdView をリソースとしてルックアップしてリクエストを読み込む
-        adView = (AdView)findViewById(R.id.adView);
+        adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
         // インタースティシャルを作成する。
         loadInterstitial();
-
 
 
         mListView = (ListView) findViewById(R.id.listView);
@@ -103,23 +96,29 @@ public class MainActivity extends Activity
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstTime = sharedPref.getBoolean("first_time", true);
-        if(isFirstTime){
-            showFirstTutorial();
-            sharedPref.edit().putBoolean("first_time", false).commit();
+        if (isFirstTime) {
+            showFirstTutorial(sharedPref);
         }
     }
+
+
+    /*広告*/
     public void loadInterstitial() {
         AdRequest adRequest = new AdRequest.Builder().build();
         interstitial = new InterstitialAd(this);
         interstitial.setAdUnitId("ca-app-pub-5520972500232876/1168590348");
         interstitial.loadAd(adRequest);
     }
-    public void displayInterstitial() {if (interstitial.isLoaded()) {interstitial.show();}}
+
+    public void displayInterstitial() {
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+    }
 
 
-    private String[] TITLES = {"ようこそ","ブラウザから","アプリから","覚えたリスト"};
-    ViewPagerIndicator mViewPagerIndicator;
-    private void showFirstTutorial(){
+    /*チュートリアル*/
+    private void showFirstTutorial(final SharedPreferences sharedPref) {
 
         final Dialog d = new Dialog(this);
         Window window = d.getWindow();
@@ -134,7 +133,7 @@ public class MainActivity extends Activity
         final ViewPager myPager = (ViewPager) d.findViewById(R.id.viewPager);
         myPager.setAdapter(adapter);
 
-        // 縦のサイズを80%にする
+        // 縦のサイズを70%にする
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int dialogHeight = (int) (metrics.heightPixels * 0.7);
 
@@ -145,39 +144,42 @@ public class MainActivity extends Activity
         mViewPagerIndicator = (ViewPagerIndicator) d.findViewById(R.id.indicator);
         mViewPagerIndicator.setCount(adapter.getCount());
 
-        final Button button = (Button)d.findViewById(R.id.button);
+        final Button button = (Button) d.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int i = myPager.getCurrentItem();
-                if(i<3){
+                if (i < 3) {
                     myPager.setCurrentItem(i + 1);
-                }else{
+                } else {
+                    sharedPref.edit().putBoolean("first_time", false).apply();
                     d.dismiss();
                 }
-
             }
         });
 
         final TextView titleText = (TextView) d.findViewById(R.id.tutorialTitle);
         myPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        super.onPageSelected(position);
-                        mViewPagerIndicator.setCurrentPosition(position);
-                        titleText.setText(TITLES[position]);
-                        if(position<3){
-                            button.setText("次へ");
-                        }else{
-                            button.setText("完了");
-                        }
-                    }
-                });
-
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                mViewPagerIndicator.setCurrentPosition(position);
+                String[] titles = getResources().getStringArray(R.array.tutorial_titles);
+                titleText.setText(titles[position]);
+                if (position < 3) {
+                    button.setText(getString(R.string.next));
+                } else {
+                    button.setText(getString(R.string.finish));
+                }
+            }
+        });
         d.show();
-        //sharedPref.edit().putBoolean("first_time",false).commit();
-        updateMyList();
+        myList = new MyWordList(this);
     }
+
+
+    /*Activityのオーバーライドたち*/
+    @Override
     public void onBackPressed() {
         displayInterstitial();
         super.onBackPressed();
@@ -192,6 +194,7 @@ public class MainActivity extends Activity
     @Override
     public void onResume() {
         super.onResume();
+        showMyList();
         adView.resume();
     }
 
@@ -201,40 +204,36 @@ public class MainActivity extends Activity
         super.onDestroy();
     }
 
-    /*リストをデータベースから更新する*/
-    public void updateMyList() {
-        myList = new MyWordList(this);
-        showMyList();
-    }
 
     /*リストを表示させるだけ*/
     public void showMyList() {
         showMyList(0, 0, "");
     }
 
-    /*単語を取り除いてからリストを表示させる（データベース操作なし）*/
+    /*単語を取り除いてからリストを表示させる（データベース操作はなし）*/
     public void showMyList(int position, int y, String newIgnoreWord) {
         final List<Map<String, String>> list = myList.get(newIgnoreWord);
-        final MyListAdapter simpleAdapter = new MyListAdapter(this, list);
+        final MyListAdapter adapter = new MyListAdapter(this, list);
         mListView.setDividerHeight(2);
-        mListView.setAdapter(simpleAdapter);
+        mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final String clickedWord = list.get(position).get("単語");
-                listClickDialog(clickedWord, simpleAdapter.getMarkedWords().contains(clickedWord), view).show();
+                listClickDialog(clickedWord, adapter.getMarkedWords().contains(clickedWord), view).show();
             }
         });
         mListView.setSelectionFromTop(position, y);
+        getActionBar().setTitle(getString(R.string.my_list));
     }
 
     /*マイ単語帳のアイテムをクリック時に表示するダイアログ*/
     public Dialog listClickDialog(final String clickedWord, final boolean isMarked, final View view) {
         String[] option;
         if (isMarked) {
-            option = new String[]{"意味検索", "マーカーを消す", "覚えたリストへ", "無視リストへ", "キャンセル"};
+            option = getResources().getStringArray(R.array.my_list_option_marked);
         } else {
-            option = new String[]{"意味検索", "マーカー", "覚えたリストへ", "無視リストへ", "キャンセル"};
+            option = getResources().getStringArray(R.array.my_list_option);
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -250,21 +249,24 @@ public class MainActivity extends Activity
                                 startActivity(i);
                                 break;
                             case 1:
-                                addToFile(clickedWord, "markedList");
-                                if (isMarked) deleteWord(clickedWord, "markedList");
-                                showMyList(position, y, "");
+                                (new AsyncFileWriter(MainActivity.this, true, clickedWord, "markedList", position, y)).execute();
+                                if (isMarked) {
+                                    (new AsyncFileWriter(MainActivity.this, false, clickedWord, "markedList", position, y)).execute();
+                                }
                                 break;
                             case 2:
-                                deleteFromMyList(view, clickedWord, isMarked, position, y, "rememberedList");
-//                                addToFile(clickedWord,"rememberedList");
-//                                if(isMarked)deleteWord(clickedWord,"markedList");
-//                                showMyList(position, y, clickedWord);
+                                deleteFromMyList(view, clickedWord, position, y, "rememberedList");
+                                (new AsyncFileWriter(MainActivity.this, true, clickedWord, "rememberedList")).execute();
+                                if (isMarked) {
+                                    (new AsyncFileWriter(MainActivity.this, false, clickedWord, "markedList")).execute();
+                                }
                                 break;
                             case 3:
-                                deleteFromMyList(view, clickedWord, isMarked, position, y, "ignoreList");
-//                                addToFile(clickedWord,"ignoreList");
-//                                if(isMarked)deleteWord(clickedWord,"markedList");
-//                                showMyList(position, y, clickedWord);
+                                deleteFromMyList(view, clickedWord, position, y, "ignoreList");
+                                (new AsyncFileWriter(MainActivity.this, true, clickedWord, "ignoreList")).execute();
+                                if (isMarked) {
+                                    (new AsyncFileWriter(MainActivity.this, false, clickedWord, "markedList")).execute();
+                                }
                                 break;
                             case 4:
                                 break;
@@ -275,34 +277,11 @@ public class MainActivity extends Activity
         return builder.create();
     }
 
-    /*無視する単語をファイルに書き込む*/
-    public void addToFile(String word, String fileName) {
-        SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd");
-        File newFile = new File(getFilesDir(), fileName);
-        FileWriter output = null;
-        try {
-            output = new FileWriter(newFile, true);
-            output.write(word + "\t" + sdf1.format(new Date()) + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        changePref(fileName, 1);
-    }
 
-    private void deleteFromMyList(final View v, final String clickedWord, final boolean isMarked, final int position, final int y, final String fileName) {
+    private void deleteFromMyList(final View v, final String clickedWord, final int position, final int y, final String fileName) {
         Animation.AnimationListener al = new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
-                addToFile(clickedWord, fileName);
-                if (isMarked) deleteWord(clickedWord, "markedList");
                 showMyList(position, y, clickedWord);
             }
 
@@ -375,14 +354,14 @@ public class MainActivity extends Activity
                 showIgnoredList(0, 0, "rememberedList", true);
                 break;
             case 4:
-                startActivity(new Intent(this, PreferenceActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
         }
     }
 
 
     /*サイト一覧を表示する*/
-    public void showSiteList(){
+    public void showSiteList() {
         int position = mListView.getFirstVisiblePosition();
         int y = mListView.getChildAt(0).getTop();
         showSiteList(position, y);
@@ -397,15 +376,15 @@ public class MainActivity extends Activity
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                siteListClickDialog(list.get(position),view).show();
+                siteListClickDialog(list.get(position), view).show();
             }
         });
         mListView.setSelectionFromTop(position, y);
     }
 
-    /*マイ単語帳のアイテムをクリック時に表示するダイアログ*/
-    public Dialog siteListClickDialog(final Map map,final View view) {
-        String[] option = new String[]{"サイトへ移動", "このサイトを削除", "キャンセル"};
+    /*サイトリストのアイテムをクリック時に表示するダイアログ*/
+    public Dialog siteListClickDialog(final Map map, final View view) {
+        String[] option = getResources().getStringArray(R.array.site_list_option);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(map.get("サイト名").toString())
                 .setItems(option, new DialogInterface.OnClickListener() {
@@ -419,9 +398,9 @@ public class MainActivity extends Activity
                                 int position = mListView.getFirstVisiblePosition();
                                 int y = mListView.getChildAt(0).getTop();
                                 String siteID = map.get("サイトID").toString();
-                                deleteWord(siteID, "siteList");
+                                (new AsyncFileWriter(MainActivity.this, false, siteID, "siteList")).execute();
                                 deleteSiteFromDB(siteID);
-                                deleteAnimFromSiteList(view,position,y);
+                                deleteAnimFromSiteList(view, position, y);
                                 break;
                             case 2:
                                 break;
@@ -479,9 +458,11 @@ public class MainActivity extends Activity
             public void onAnimationEnd(Animation arg0) {
                 showSiteList(position, y);
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
+
             @Override
             public void onAnimationStart(Animation animation) {
             }
@@ -489,24 +470,6 @@ public class MainActivity extends Activity
         collapse(v, al, false);
     }
 
-
-
-
-
-    public void changePref(String name, int dif) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int newNum = sharedPref.getInt(name, 0) + dif;
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(name, newNum);
-        editor.commit();
-    }
-
-    public void checkListSize(String filename, int listSize) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(filename, listSize);
-        editor.commit();
-    }
 
     /*覚えたリスト・無視リストを表示*/
     public void showIgnoredList(int position, int y, final String fileName, final boolean isRememberedList) {
@@ -518,37 +481,39 @@ public class MainActivity extends Activity
 
         BaseAdapter simpleAdapter;
         if (isRememberedList) {
-            simpleAdapter = new OtherListAdapter(this, list, position+10);
+            simpleAdapter = new RememberedListAdapter(this, list, position + 10);
         } else {
-            simpleAdapter = new SimpleAdapter(this, list, R.layout.other_list_item, new String[]{"単語", "登録日"}, new int[]{R.id.itemName, R.id.itemDate});
+            simpleAdapter = new SimpleAdapter(this, list, R.layout.other_list_item,
+                    new String[]{"単語", "登録日"}, new int[]{R.id.itemName, R.id.itemDate});
         }
         mListView.setAdapter(simpleAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent,final View view, final int position, long id) {
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                 if (isRememberedList) {
-                    alertDialogBuilder.setTitle("覚えたリストから削除して良いですか？");
+                    alertDialogBuilder.setTitle(getString(R.string.delete_from_remembered_list));
                 } else {
-                    alertDialogBuilder.setTitle("無視リストから削除して良いですか？");
+                    alertDialogBuilder.setTitle(getString(R.string.delete_from_ignore_list));
                 }
-                alertDialogBuilder.setPositiveButton("はい",
+                alertDialogBuilder.setPositiveButton(getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 int firstVisiblePosition = mListView.getFirstVisiblePosition();
                                 int y = mListView.getChildAt(0).getTop();
-                                deleteWord(list.get(position).get("単語"), fileName);
-                                if(isRememberedList){
-                                    deleteAnimFromRememberedList(view,firstVisiblePosition,y);
-                                }else{
-                                    showIgnoredList(firstVisiblePosition, y, fileName, isRememberedList);
+                                String word = list.get(position).get("単語");
+                                (new AsyncFileWriter(MainActivity.this, false, word, fileName)).execute();
+                                if (isRememberedList) {
+                                    deleteAnimFromRememberedList(view, firstVisiblePosition, y);
+                                } else {
+                                    showIgnoredList(firstVisiblePosition, y, fileName, false);
                                 }
                             }
                         }
                 );
-                alertDialogBuilder.setNegativeButton("キャンセル",
+                alertDialogBuilder.setNegativeButton(getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -556,21 +521,23 @@ public class MainActivity extends Activity
                         }
                 );
                 alertDialogBuilder.setCancelable(true);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                alertDialogBuilder.create().show();
             }
         });
         mListView.setSelectionFromTop(position, y);
     }
+
     private void deleteAnimFromRememberedList(final View v, final int firstVisiblePosition, final int y) {
         Animation.AnimationListener al = new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
                 showIgnoredList(firstVisiblePosition, y, "rememberedList", true);
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
+
             @Override
             public void onAnimationStart(Animation animation) {
             }
@@ -601,37 +568,10 @@ public class MainActivity extends Activity
         return list;
     }
 
-    public void deleteWord(String word, String fileName) {
-        File file = new File(getFilesDir(), fileName);
-        String writer = "";
-        try {
-            BufferedReader bufferReader = new BufferedReader(new FileReader(file));
-            String StringBuffer;
-            while ((StringBuffer = bufferReader.readLine()) != null) {
-                if (StringBuffer.split("\t")[0].equals(word))
-                    continue;
-                writer += StringBuffer + "\n";
-            }
-            bufferReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FileWriter overWrite = null;
-        try {
-            overWrite = new FileWriter(file, false);
-            overWrite.write(writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (overWrite != null) {
-                try {
-                    overWrite.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        changePref(fileName, -1);
+
+    public void checkListSize(String filename, int listSize) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref.edit().putInt(filename, listSize).commit();
     }
 
 
@@ -672,7 +612,7 @@ public class MainActivity extends Activity
                 urlDialog().show();
                 break;
             case R.id.action_ignore_list:
-                getActionBar().setTitle("無視リスト");
+                getActionBar().setTitle(getString(R.string.ignore_list));
                 showIgnoredList(0, 0, "ignoreList", false);
                 break;
             case R.id.action_go_wiki:
@@ -681,12 +621,10 @@ public class MainActivity extends Activity
                 break;
             case R.id.action_random:
                 (new AsyncHttpRequest("http://en.wikipedia.org/wiki/Special:Random", MainActivity.this)).execute();
-                Toast.makeText(MainActivity.this, "ランダムページから取得します",
-                        Toast.LENGTH_SHORT).show();
                 displayInterstitial();
                 break;
             case R.id.action_settings:
-                startActivity(new Intent(this, PreferenceActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
             default:
         }
@@ -699,16 +637,16 @@ public class MainActivity extends Activity
         final EditText editView = new EditText(MainActivity.this);
         editView.setText("http://");
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("URL入力").setView(editView)
+        builder.setTitle(getString(R.string.input_url)).setView(editView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String s = editView.getText().toString();
                         (new AsyncHttpRequest(s, MainActivity.this)).execute();
-                        Toast.makeText(MainActivity.this, s + "から取得します",
+                        Toast.makeText(MainActivity.this, s + getString(R.string.get_from),
                                 Toast.LENGTH_LONG).show();
                     }
                 })
-                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 });
